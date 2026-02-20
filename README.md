@@ -6,8 +6,11 @@ Clone this repository to get started with backend project.
 ## Setup
 
 git clone <repo-url>
+
 cd skillswap-backend
+
 npm install
+
 node index.js
 
 
