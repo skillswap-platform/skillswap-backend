@@ -1,9 +1,10 @@
 import Resource from "../models/Resource.js";
 
 
-export const createResource = async (req, res) => {
+export const createResource = async (req, res, next) => {
   try {
-    const { mentorId, skillId, type, title, url } = req.body;
+    const { skillId, type, title, url } = req.body;
+    const mentorId = req.user.id;
 
     const resource = await Resource.create({
       mentorId,
@@ -23,13 +24,13 @@ export const createResource = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
 
 
-export const getResourcesBySkill = async (req, res) => {
+export const getResourcesBySkill = async (req, res, next) => {
   try {
     const { skillId } = req.query;
 
@@ -46,6 +47,6 @@ export const getResourcesBySkill = async (req, res) => {
     res.json(formatted);
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };

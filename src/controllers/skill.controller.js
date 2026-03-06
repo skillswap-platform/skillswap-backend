@@ -1,7 +1,7 @@
 import Skill from "../models/Skill.js";
 
 // 🔹 GET /api/skills
-export const getAllSkills = async (req, res) => {
+export const getAllSkills = async (req, res, next) => {
   try {
     const skills = await Skill.find();
 
@@ -14,13 +14,13 @@ export const getAllSkills = async (req, res) => {
 
     res.json(formatted);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
 
 // 🔹 POST /api/skills
-export const createSkill = async (req, res) => {
+export const createSkill = async (req, res, next) => {
   try {
     const { name, category } = req.body;
 
@@ -41,6 +41,6 @@ export const createSkill = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };

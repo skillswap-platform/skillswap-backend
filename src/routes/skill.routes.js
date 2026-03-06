@@ -1,4 +1,5 @@
 import express from "express";
+import protect from "../middleware/auth.js";
 import {
   getAllSkills,
   createSkill
@@ -7,6 +8,6 @@ import {
 const router = express.Router();
 
 router.get("/", getAllSkills);
-router.post("/", createSkill);
+router.post("/", protect, createSkill);
 
 export default router;

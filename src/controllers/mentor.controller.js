@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import UserSkill from "../models/UserSkill.js";
 
 
-export const getAllMentors = async (req, res) => {
+export const getAllMentors = async (req, res, next) => {
   try {
     // Finding mentors
     const mentors = await User.find({
@@ -33,12 +33,12 @@ export const getAllMentors = async (req, res) => {
     res.json(result);
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
 
-export const getMentorById = async (req, res) => {
+export const getMentorById = async (req, res, next) => {
   try {
     const mentor = await User.findById(req.params.id);
 
@@ -62,6 +62,6 @@ export const getMentorById = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };

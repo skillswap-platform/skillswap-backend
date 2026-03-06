@@ -1,4 +1,5 @@
 import express from "express";
+import protect from "../middleware/auth.js";
 import {
   createResource,
   getResourcesBySkill
@@ -6,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.post("/", createResource);
+router.post("/", protect, createResource);
 router.get("/", getResourcesBySkill);
 
 export default router;

@@ -2,9 +2,10 @@ import Bookmark from "../models/Bookmark.js";
 // import Resource from "../models/Resource.js";
 
 // POST /api/bookmarks
-export const createBookmark = async (req, res) => {
+export const createBookmark = async (req, res, next) => {
   try {
-    const { userId, resourceId } = req.body;
+    const { resourceId } = req.body;
+    const userId = req.user.id;
 
     const bookmark = await Bookmark.create({
       userId,
@@ -19,16 +20,16 @@ export const createBookmark = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
 
 // GET /api/users/:id/bookmarks
-export const getUserBookmarks = async (req, res) => {
+export const getUserBookmarks = async (req, res, next) => {
   try {
     const bookmarks = await Bookmark.find({
-      userId: req.params.id
+      userId: req.user.id
     }).populate("resourceId");
 
     const formatted = bookmarks.map(b => ({
@@ -41,6 +42,6 @@ export const getUserBookmarks = async (req, res) => {
     res.json(formatted);
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };

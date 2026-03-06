@@ -2,9 +2,10 @@ import UserSkill from "../models/UserSkill.js";
 import Skill from "../models/Skill.js";
 
 // POST /api/user-skills
-export const assignSkill = async (req, res) => {
+export const assignSkill = async (req, res, next) => {
   try {
-    const { userId, skillId, type } = req.body;
+    const { skillId, type } = req.body;
+    const userId = req.user.id;
 
     const userSkill = await UserSkill.create({
       userId,
@@ -20,16 +21,16 @@ export const assignSkill = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
 
 // GET /api/users/:id/skills
-export const getUserSkills = async (req, res) => {
+export const getUserSkills = async (req, res, next) => {
   try {
     const userSkills = await UserSkill.find({
-      userId: req.params.id
+      userId: req.user.id
     }).populate("skillId");
 
     const formatted = userSkills.map(us => ({
@@ -41,6 +42,6 @@ export const getUserSkills = async (req, res) => {
     res.json(formatted);
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };

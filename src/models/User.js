@@ -14,6 +14,8 @@ const SocialLinksSchema = new mongoose.Schema({
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  skills: [{ type: String }], // Array of skill names
 
   role: {
     type: String,
