@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const AvailabilitySchema = new mongoose.Schema({
-  isAvailable: { type: Boolean, default: false },
+  isAvailable: { type: Boolean, default: true },
   note: { type: String }
 }, { _id: false });
 

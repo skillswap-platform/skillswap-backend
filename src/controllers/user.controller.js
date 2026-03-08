@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 // 🔹 POST /api/users
 export const createUser = async (req, res, next) => {
   try {
-    const { name, email, password, role, availability, skills } = req.body;
+    const { name, email, password, role,  skills } = req.body;
 
     // Map 'User' to 'learner'
     const mappedRole = role === 'User' ? 'learner' : role;
@@ -19,8 +19,8 @@ export const createUser = async (req, res, next) => {
       email,
       password: hashedPassword,
       role: mappedRole,
-      availability,
-      skills
+      skills,
+      availability: { isAvailable: true, note: "" }
     });
 
     console.log("Created user:", user);
@@ -117,7 +117,15 @@ export const updateUser = async (req, res, next) => {
     const updates = {};
     if (name !== undefined) updates.name = name;
     if (bio !== undefined) updates.bio = bio;
-    if (availability !== undefined) updates.availability = availability;
+    // if (availability !== undefined) updates.availability = availability;
+    if (availability !== undefined) {
+  if (typeof availability === "object") {
+    updates.availability = {
+      isAvailable: Boolean(availability.isAvailable),
+      note: availability.note || ""
+    };
+  }
+}
     if (skills !== undefined) updates.skills = skills;
     if (socialLinks !== undefined) updates.socialLinks = socialLinks;
     if (password) {
